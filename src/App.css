@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 6;
+}
+
+.row main {
+  min-height: 70vh;
+}
+
+.row aside {
+  background: rgb(145, 145, 197);
+  flex: 1;
+}
+
+header,
+footer {
+  background: rgb(59, 53, 183);
+  height: 15vh;
+}
+
+header,
+footer,
+main,
+nav,
+aside {
+  padding: 1em;
+}
+
+.card {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+li{
+  display: inline;
+}
+
+ul{
+  float: right;
+}
+
+label {
+  display: block;
+  font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+  margin: 0.4rem 0;
+}
+
+body {
+  background-color: lightblue;
+}
