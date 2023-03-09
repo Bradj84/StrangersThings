@@ -1,65 +1,66 @@
-import React, {useEffect, useState} from "react";
-
-import { registerUser } from "../api";
-
-
+import React from "react";
+import { useState } from "react";
+import { BASE_URL } from "../api";
 
 
 
-export const Register = ( ) => {
-    const [name, setName] =useState([]);
-    //const [email, setEmail] =useState([]);
-    const [password, setPassword] =useState([]);
-    const [passConf, setPassConf] =useState([]);
-
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const result = await registerUser(name, email, password)
-
-
-
-
-        console.log(name, email, password, passConf)
+export default function CreateAccount({token}) {
+    const [newUsername, setNewUsername] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+  
+    async function createNewAccount(event){
+      event.preventDefault();
+      fetch(`${BASE_URL}/users/register`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user: {
+        username: event.target[0].value,
+        password: event.target[1].value
+      }
+    })
+  }).then(response => response.json())
+    .then(result => {
+      console.log(result);
+      console.log('This is token from Register', result.data.token)
+      localStorage.setItem('token', result.data.token)
+    })
+    .catch(console.error);
     }
-
-
-
-    return (
-        <form onSubmit={handleSubmit} className="registration-container"
-        >
-            <div>
-                <h2>Register</h2>
-                <input
-                type="text"
-                placeholder="Full Name"
-                className="register-input"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                />
-                <br></br>
-                <input
-                type="email"
-                placeholder="Email"
-                className="register-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                />
-                <br></br>
-                <input
-                type="password"
-                placeholder="Confirm Password"
-                className="register-input"
-                //minLength={e} required
-                //autoComplete="none"
-                value={passConf}
-                onChange={(e) => setPassConf(e.target.value)}
-                />
-                <br>
-                </br>
-                <button type="submit">Register</button>
-            </div>
-        </form>
-    )
-}
+      return (
+          <form onSubmit={(event) => createNewAccount(event)}>
+              <label>Register Username:</label>
+                <input 
+                  placeholder="New Username"
+                  type="text" 
+                  value={newUsername}
+                  onChange={(event) => setNewUsername(event.target[0])}
+                ></input>
+              <label>Register Password:</label>
+                <input 
+                  placeholder="New Password"
+                  type="password" 
+                  value={newPassword}
+                  onChange={(event) => setNewPassword(event.target[1])}
+                ></input>
+              <button type="submit">Create Account</button>
+          </form>
+          );
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

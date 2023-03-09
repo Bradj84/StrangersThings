@@ -1,8 +1,10 @@
+import { token } from '../App.js'
+
 fetch('https://strangers-things.herokuapp.com/api/COHORT-NAME/posts/5e8929ddd439160017553e06/messages', {
   method: "POST",
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJfaWQiOiI1ZTg5MDY2ZGQ0MzkxNjAwTc1NTNlMDUiLCJ1c2VybmFtZSI6Im1hdHQiLCJpYXQiOjE1ODYwMzgzODF9'
+    'Authorization': `Bearer${token}`
   },
   body: JSON.stringify({
     message: {

@@ -1,103 +1,68 @@
-import React, { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
+import { BASE_URL } from '../api';
 
 
-
-
-const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-const loginCall = async(event) => {
-    event.preventDefault()
-    console.log('username and password event', event.target[0].value, event.target[1].value);
-   await fetch('https://strangers-things.herokuapp.com/api/2211-ftb-et-web-pt/users/login', {
-  method: "POST",
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    user: {
-      username: event.target[0].value,
-      password: event.target[1].value
-    }
-  })
+export default function Login({ setToken }) {
+  const [userName, setUserName] = useState('');
+  const [passWord, setPassword] = useState('');
+  //const [token, useToken] = useState('');
   
-}).then(response => response.json())
-  .then(result => {
-    console.log("tokinLogin",result);
-  })
-  .catch(console.error);
-};
-const createAccount = async (e) => {
-    e.preventDefault()
-     try {
-       const response = await fetch(
-         `https://strangers-things.herokuapp.com/api/2211-ftb-et-web-pt/users/register`,
-         {
-           method: 'POST',
-           headers: {
-             'Content-Type': 'application/json',
-           },
-           body: JSON.stringify({
-             user: {
-               username: username,
-               password: password,
-             },
-           }),
-         }
-       );
-       const result = await response.json();
-       // You can log ▲▲▲ the result
-       // here ▼▼▼ to view the json object before returning it
-       console.log(result);
-       return result;
-     } catch (err) {
-       console.error(err);
-     }
-   };
-    return (
-        <>
-        <form
-        id="Login"
-        onSubmit={loginCall}
 
- 
-
-
-            >
-
-            <label>
-            Username:
+  async function loginUser(event) {
+    event.preventDefault();
+    console.log('username and password event', event.target[0].value, event.target[1].value);
+    
+      await fetch(`${BASE_URL}/users/login`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          username: event.target[0].value,
+          password: event.target[1].value
+        }
+      })
+    }).then(response => response.json())
+      .then(result => {
+        console.log(result);
+        localStorage.setItem('token', result.data.token)
+      })
+      .catch(console.error);
+      }
+      return (
+        <form onSubmit={(event) => loginUser(event)}>
+          <label>Username:</label>
             <input
-            type="text"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            />
-            </label>
-            <label>
-                Password:
-                <input
-                type="password"
-                name="password"
-                //autoComplete="none"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                />
-            
-            {/* <input type="password" name="confirmPassword" /> */}
-            </label>
-            <button id="Login-button" onClick={loginCall}>
-                Login
-            </button>
-            <button id="Login-button" onClick={createAccount}>
-                Register
-            </button>
-            </form>
-            </>
-    )
-}
+              placeholder='Username'
+              type="text"
+              value={userName}
+              onChange={(event) => setUserName(event.target[0])}
+            ></input>
+          <label>Password:</label>
+            <input
+              placeholder='Password'
+              type="password"
+              value={passWord}
+              onChange={(event) => setPassword(event.target[1])}
+            ></input>
+          <button type="submit">Login</button>
+        </form>
+      );
+    }
 
-export default Login
+
+
+
+
+
+
+
+
+
+
+
 
             
         

@@ -192,4 +192,44 @@ const deletePost = async (BASE_URL,TOKEN_STRING_HERE) => {
       console.error(err);
     }
   }
+
+  export const SavePost = async (token, newPost) => {
+    try{     
+      const response = await fetch(`${BASE_URL}/posts`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      post: {
+        title: newPost.title,
+        description: newPost.description,
+        price: newPost.price,
+        willDeliver: newPost.willDeliver
+      }
+    })
+    });
+      const result = await response.json();
+      console.log(result);
+      return result
+    } catch (err) {
+      console.error(err);
+      }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
